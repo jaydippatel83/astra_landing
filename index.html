@@ -1,266 +1,1380 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="ASTRA — an intelligent operating layer for teams that want to move from signal to action.">
-<title>ASTRA — Intelligence, in orbit.</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
-:root{
-  --bg:#07090d;--panel:#0d1118;--panel2:#111720;--text:#f4f6f2;--muted:#8e98a5;
-  --line:rgba(255,255,255,.09);--lime:#d8ff55;--violet:#8d7aff;--cyan:#67e8f9;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Manrope,system-ui,sans-serif;overflow-x:hidden}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-a{color:inherit;text-decoration:none}.wrap{width:calc(100% - clamp(40px,8vw,160px));margin:auto}
-.header{height:74px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50;background:rgba(7,9,13,.76);backdrop-filter:blur(18px)}
-.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.05em;font-size:19px}.brandmark{width:14px;height:14px;border-radius:50%;background:var(--lime);box-shadow:0 0 22px rgba(216,255,85,.7)}
-.nav{display:flex;gap:28px;font-size:12px;color:#9ea6b1}.nav a:hover{color:white}.nav-right{display:flex;gap:10px;align-items:center}.mini{font:10px DM Mono,monospace;color:#69727d;border:1px solid var(--line);border-radius:99px;padding:8px 10px}.navbtn{background:var(--lime);color:#080a06;border:0;border-radius:99px;padding:10px 15px;font-size:12px;font-weight:800}
-.hero{min-height:860px;display:grid;align-items:center;position:relative;overflow:hidden}.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:80px 80px;mask-image:linear-gradient(to bottom,black,transparent 85%);opacity:.5}
-.glow{position:absolute;width:780px;height:780px;right:-180px;top:20px;background:radial-gradient(circle,rgba(141,122,255,.2),transparent 58%);filter:blur(5px)}
-.hero-content{position:relative;z-index:2;max-width:880px;padding:90px 0 130px}.eyebrow{font:500 10px DM Mono,monospace;letter-spacing:.16em;text-transform:uppercase;color:#8e98a5}.live{color:var(--lime)}.hero h1{font-size:clamp(72px,11vw,148px);line-height:.82;letter-spacing:-.085em;margin:25px 0 35px;max-width:1000px}.hero h1 span{color:var(--lime)}.hero-copy{max-width:620px;color:#aeb6c0;font-size:18px;line-height:1.7}.actions{display:flex;gap:12px;margin-top:32px}.btn{border:1px solid var(--line);padding:14px 20px;border-radius:99px;font-size:13px;font-weight:800;transition:.25s}.btn.primary{background:var(--lime);color:#080a06;border-color:var(--lime)}.btn:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.25)}
-.orbit{position:absolute;right:2%;top:16%;width:min(540px,48vw);aspect-ratio:1;border:1px solid rgba(255,255,255,.08);border-radius:50%;transform:rotate(-18deg)}.orbit:before,.orbit:after{content:"";position:absolute;inset:13%;border:1px solid rgba(141,122,255,.25);border-radius:50%}.orbit:after{inset:28%;border-color:rgba(216,255,85,.18)}.core{position:absolute;left:50%;top:50%;width:100px;height:100px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 35% 30%,#f3ffd0,#d8ff55 22%,#5f7d1d 48%,#10150b 70%);box-shadow:0 0 80px rgba(216,255,85,.25),0 0 180px rgba(141,122,255,.18)}.sat{position:absolute;width:8px;height:8px;background:var(--lime);border-radius:50%;box-shadow:0 0 18px var(--lime)}.s1{left:8%;top:45%}.s2{right:18%;top:12%;background:var(--violet);box-shadow:0 0 18px var(--violet)}.s3{right:6%;bottom:25%;background:var(--cyan);box-shadow:0 0 18px var(--cyan)}
-.scroll{position:absolute;bottom:28px;left:0;font:9px DM Mono,monospace;color:#626c78;letter-spacing:.15em}
-.ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap}.ticker-inner{display:inline-flex;gap:35px;padding:15px 0;font:10px DM Mono,monospace;color:#737d89;letter-spacing:.11em;text-transform:uppercase;animation:marquee 28s linear infinite}@keyframes marquee{to{transform:translateX(-50%)}}
-.section{padding:140px 0}.section-head{display:grid;grid-template-columns:.7fr 1.3fr;gap:70px}.section h2{font-size:clamp(44px,6.5vw,82px);line-height:.92;letter-spacing:-.075em;margin:15px 0}.lead{font-size:24px;line-height:1.45;color:#dce0dc;max-width:720px}.muted{color:var(--muted);line-height:1.75}.kicker{color:var(--lime)}
-.signal-panel{margin-top:70px;border:1px solid var(--line);border-radius:25px;background:linear-gradient(145deg,#0d1219,#090c11);overflow:hidden;box-shadow:0 35px 100px rgba(0,0,0,.35)}
-.panel-top{height:52px;display:flex;justify-content:space-between;align-items:center;padding:0 20px;border-bottom:1px solid var(--line);font:10px DM Mono,monospace;color:#747f8b}.status{color:var(--lime)}
-.signal-body{display:grid;grid-template-columns:1.3fr .7fr;min-height:450px}.visual{padding:30px;position:relative;border-right:1px solid var(--line);overflow:hidden}.visual h3,.insights h3{font-size:13px;margin:0 0 20px}.field{height:350px;position:relative;background:radial-gradient(circle at 50% 45%,rgba(141,122,255,.16),transparent 33%),radial-gradient(circle at 60% 60%,rgba(216,255,85,.08),transparent 28%);border:1px solid rgba(255,255,255,.05);border-radius:18px;overflow:hidden}.field:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:45px 45px}.node{position:absolute;border-radius:50%;width:12px;height:12px;background:var(--lime);box-shadow:0 0 20px rgba(216,255,85,.6)}.n1{left:17%;top:27%}.n2{left:38%;top:58%;background:var(--violet);box-shadow:0 0 20px rgba(141,122,255,.6)}.n3{left:65%;top:34%;background:var(--cyan);box-shadow:0 0 20px rgba(103,232,249,.6)}.n4{right:14%;bottom:18%}.beam{position:absolute;height:1px;background:linear-gradient(90deg,transparent,var(--lime),transparent);transform-origin:left;opacity:.65}.b1{left:19%;top:30%;width:260px;transform:rotate(21deg)}.b2{left:40%;top:59%;width:230px;transform:rotate(-24deg)}.b3{left:65%;top:36%;width:180px;transform:rotate(48deg)}.pulse{position:absolute;left:51%;top:46%;width:76px;height:76px;border:1px solid rgba(216,255,85,.5);border-radius:50%;transform:translate(-50%,-50%);animation:pulse 2.8s infinite}@keyframes pulse{50%{box-shadow:0 0 0 22px rgba(216,255,85,.03);opacity:.55}100%{box-shadow:0 0 0 48px rgba(216,255,85,0);opacity:1}}
-.insights{padding:30px}.metric{padding:19px 0;border-top:1px solid var(--line)}.metric:first-of-type{border-top:0}.metric strong{display:block;font-size:30px;letter-spacing:-.05em}.tag{display:inline-block;margin:5px 0 7px;padding:5px 7px;border-radius:5px;background:rgba(216,255,85,.08);color:var(--lime);font:9px DM Mono,monospace}.metric p{margin:0;color:#838d99;font-size:12px;line-height:1.6}
-.feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:60px}.feature{padding:27px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(150deg,#10151d,#0b0e13);min-height:260px;transition:.3s}.feature:hover{transform:translateY(-5px);border-color:rgba(255,255,255,.2)}.num{font:10px DM Mono,monospace;color:var(--lime)}.feature h3{margin:75px 0 12px;font-size:18px}.feature p{font-size:12px;line-height:1.7;color:#858f9b}
-.workflow{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:60px}.step{border:1px solid var(--line);border-radius:20px;padding:30px;min-height:220px;background:#0d1117}.step strong{font-size:12px;color:var(--lime);font-family:DM Mono,monospace}.step h3{font-size:25px;margin:45px 0 12px;letter-spacing:-.04em}.step p{color:#89939e;line-height:1.65;font-size:13px}
-.band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:100px 0;background:radial-gradient(circle at 15% 50%,rgba(141,122,255,.12),transparent 28%),radial-gradient(circle at 80% 40%,rgba(216,255,85,.07),transparent 25%)}.band-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}.quote{font-size:clamp(30px,4.3vw,56px);line-height:1;letter-spacing:-.06em;margin:0}.quote span{color:#646d78}.logos{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.logo{border:1px solid var(--line);border-radius:12px;padding:20px;color:#87919c;font:11px DM Mono,monospace}
-.security{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:60px}.security-card{border:1px solid var(--line);border-radius:20px;padding:30px;background:#0c1016}.security-card h3{margin:0 0 14px;font-size:19px}.security-card p{margin:0;color:#8b95a0;font-size:13px;line-height:1.7}
-.cta{text-align:center;padding:155px 0 170px;position:relative;overflow:hidden}.cta:before{content:"";position:absolute;width:650px;height:300px;left:50%;top:30%;transform:translateX(-50%);background:radial-gradient(ellipse,rgba(216,255,85,.11),transparent 65%);pointer-events:none}.cta h2{position:relative;font-size:clamp(58px,9vw,122px);line-height:.83;letter-spacing:-.085em;margin:15px auto 28px;max-width:1000px}.cta h2 span{color:var(--lime)}.cta p{position:relative;max-width:470px;margin:auto;color:#89939e;line-height:1.7}
-.footer{border-top:1px solid var(--line);padding:26px 0 45px;display:flex;justify-content:space-between;color:#65707c;font:9px DM Mono,monospace;text-transform:uppercase;letter-spacing:.08em}
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .75s ease,transform .75s ease}.reveal.show{opacity:1;transform:none}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description"
+    content="ASTRA — an intelligent operating layer for teams that want to move from signal to action.">
+  <title>ASTRA — Intelligence, in orbit.</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
 
-/* --- Interactive cursor + hero signal layer --- */
-html{cursor:none}
-a,button{cursor:none}
-.cursor-dot,.cursor-ring{
-  position:fixed;left:0;top:0;pointer-events:none;z-index:9999;
-  border-radius:50%;transform:translate3d(-50%,-50%);
-}
-.cursor-dot{width:7px;height:7px;background:var(--lime);box-shadow:0 0 18px var(--lime)}
-.cursor-ring{width:38px;height:38px;border:1px solid rgba(216,255,85,.55);transition:width .22s,height .22s,border-color .22s,background .22s;mix-blend-mode:screen}
-.cursor-ring.hover{width:64px;height:64px;border-color:rgba(216,255,85,.9);background:rgba(216,255,85,.05)}
-.cursor-label{
-  position:fixed;pointer-events:none;z-index:9998;font:9px DM Mono,monospace;
-  letter-spacing:.12em;color:var(--lime);opacity:0;transform:translate(15px,15px);
-  transition:opacity .2s;text-transform:uppercase
-}
-.cursor-label.show{opacity:1}
-.hero-stage{position:absolute;right:0;top:7%;width:min(700px,58vw);height:700px;z-index:1;pointer-events:none}
-.hero-stage:after{content:"";position:absolute;inset:10%;border-radius:50%;background:radial-gradient(circle,rgba(216,255,85,.07),transparent 58%);filter:blur(25px)}
-.constellation{position:absolute;inset:0}
-.constellation i{
-  position:absolute;width:3px;height:3px;border-radius:50%;background:#cfd8e3;
-  box-shadow:0 0 10px rgba(255,255,255,.65);opacity:.7
-}
-.c1{left:12%;top:23%}.c2{left:27%;top:68%}.c3{left:40%;top:18%}.c4{left:76%;top:27%}.c5{left:84%;top:64%}.c6{left:60%;top:78%}.c7{left:51%;top:48%}.c8{left:20%;top:48%}.c9{left:70%;top:53%}.c10{left:91%;top:40%}
-.constellation svg{position:absolute;inset:0;width:100%;height:100%;opacity:.28}
-.constellation path{fill:none;stroke:rgba(216,255,85,.65);stroke-width:.7;stroke-dasharray:4 9}
-.hero-orb{
-  position:absolute;left:50%;top:49%;width:310px;height:310px;
-  transform:translate(-50%,-50%);border-radius:50%;
-  background:radial-gradient(circle at 34% 28%,#f7ffd8 0 2%,#d8ff55 10%,#788e2c 27%,#27310f 48%,#0a0e0a 68%,transparent 70%);
-  box-shadow:0 0 70px rgba(216,255,85,.22),0 0 180px rgba(141,122,255,.18);
-  animation:floatOrb 6s ease-in-out infinite
-}
-.hero-orb:before,.hero-orb:after{
-  content:"";position:absolute;inset:-38px;border:1px solid rgba(216,255,85,.2);border-radius:50%;
-  transform:rotate(25deg) scaleY(.35)
-}
-.hero-orb:after{inset:-75px;border-color:rgba(141,122,255,.25);transform:rotate(-24deg) scaleY(.27)}
-.hero-orb-core{position:absolute;inset:28%;border-radius:50%;background:radial-gradient(circle at 35% 30%,white,rgba(216,255,85,.9) 13%,rgba(216,255,85,.05) 65%,transparent 70%);filter:blur(.2px)}
-.orbit-label{
-  position:absolute;padding:8px 10px;border:1px solid rgba(255,255,255,.1);background:rgba(7,9,13,.65);
-  backdrop-filter:blur(12px);border-radius:8px;font:8px DM Mono,monospace;color:#aab3be;letter-spacing:.1em;
-}
-.ol1{left:8%;top:35%}.ol2{right:8%;top:25%}.ol3{right:13%;bottom:22%}
-.hero-stat{
-  position:absolute;right:0;bottom:7%;width:190px;padding:15px;border:1px solid var(--line);
-  border-radius:12px;background:rgba(10,13,18,.72);backdrop-filter:blur(15px);box-shadow:0 15px 45px rgba(0,0,0,.3)
-}
-.hero-stat span{font:8px DM Mono,monospace;color:#77818d}.hero-stat strong{display:block;font-size:27px;letter-spacing:-.06em;margin-top:6px}.hero-stat em{font-style:normal;font:9px DM Mono,monospace;color:var(--lime)}
-.mag{will-change:transform;transition:transform .18s cubic-bezier(.2,.8,.2,1)}
-@keyframes floatOrb{50%{transform:translate(-50%,-54%) scale(1.025)}}
-@media(max-width:900px){
-  html{cursor:auto}.cursor-dot,.cursor-ring,.cursor-label{display:none}
-  .hero-stage{opacity:.42;width:620px;right:-180px;top:16%}
-}
-@media(max-width:620px){.hero-stage{opacity:.23;right:-240px;top:21%}.hero-orb{width:250px;height:250px}}
+    :root {
+      --bg: #07090d;
+      --panel: #0d1118;
+      --panel2: #111720;
+      --text: #f4f6f2;
+      --muted: #8e98a5;
+      --line: rgba(255, 255, 255, .09);
+      --lime: #d8ff55;
+      --violet: #8d7aff;
+      --cyan: #67e8f9;
+    }
 
-@media(max-width:900px){.nav{gap:12px}.navlinks{display:none}.orbit{opacity:.28;right:-180px;top:18%;width:500px}.section-head{grid-template-columns:1fr;gap:20px}.feature-grid{grid-template-columns:1fr 1fr}.band-inner,.security{grid-template-columns:1fr}.signal-body{grid-template-columns:1fr}.visual{border-right:0;border-bottom:1px solid var(--line)}}
-@media(max-width:620px){.wrap{width:calc(100% - 28px)}.header{height:66px}.mini{display:none}.hero{min-height:760px}.hero-content{padding:90px 0}.hero h1{font-size:19vw}.hero-copy{font-size:16px}.orbit{width:390px;right:-210px;top:28%;opacity:.22}.section{padding:95px 0}.section h2{font-size:14vw}.lead{font-size:20px}.feature-grid,.workflow{grid-template-columns:1fr}.field{height:290px}.footer{flex-direction:column;gap:12px}.navbtn{padding:9px 12px}}
-</style>
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Manrope, system-ui, sans-serif;
+      overflow-x: hidden
+    }
+
+    body:before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .055;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none
+    }
+
+    .wrap {
+      width: calc(100% - clamp(40px, 8vw, 160px));
+      margin: auto
+    }
+
+    .header {
+      height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(7, 9, 13, .76);
+      backdrop-filter: blur(18px)
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: -.05em;
+      font-size: 19px
+    }
+
+    .brandmark {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 22px rgba(216, 255, 85, .7)
+    }
+
+    .nav {
+      display: flex;
+      gap: 28px;
+      font-size: 12px;
+      color: #9ea6b1
+    }
+
+    .nav a:hover {
+      color: white
+    }
+
+    .nav-right {
+      display: flex;
+      gap: 10px;
+      align-items: center
+    }
+
+    .mini {
+      font: 10px DM Mono, monospace;
+      color: #69727d;
+      border: 1px solid var(--line);
+      border-radius: 99px;
+      padding: 8px 10px
+    }
+
+    .navbtn {
+      background: var(--lime);
+      color: #080a06;
+      border: 0;
+      border-radius: 99px;
+      padding: 10px 15px;
+      font-size: 12px;
+      font-weight: 800
+    }
+
+    .hero {
+      min-height: 860px;
+      display: grid;
+      align-items: center;
+      position: relative;
+      overflow: hidden
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: linear-gradient(to bottom, black, transparent 85%);
+      opacity: .5
+    }
+
+    .glow {
+      position: absolute;
+      width: 780px;
+      height: 780px;
+      right: -180px;
+      top: 20px;
+      background: radial-gradient(circle, rgba(141, 122, 255, .2), transparent 58%);
+      filter: blur(5px)
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 880px;
+      padding: 90px 0 130px
+    }
+
+    .eyebrow {
+      font: 500 10px DM Mono, monospace;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: #8e98a5
+    }
+
+    .live {
+      color: var(--lime)
+    }
+
+    .hero h1 {
+      font-size: clamp(72px, 11vw, 148px);
+      line-height: .82;
+      letter-spacing: -.085em;
+      margin: 25px 0 35px;
+      max-width: 1000px
+    }
+
+    .hero h1 span {
+      color: var(--lime)
+    }
+
+    .hero-copy {
+      max-width: 620px;
+      color: #aeb6c0;
+      font-size: 18px;
+      line-height: 1.7
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 32px
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+      padding: 14px 20px;
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 800;
+      transition: .25s
+    }
+
+    .btn.primary {
+      background: var(--lime);
+      color: #080a06;
+      border-color: var(--lime)
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, .25)
+    }
+
+    .orbit {
+      position: absolute;
+      right: 2%;
+      top: 16%;
+      width: min(540px, 48vw);
+      aspect-ratio: 1;
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 50%;
+      transform: rotate(-18deg)
+    }
+
+    .orbit:before,
+    .orbit:after {
+      content: "";
+      position: absolute;
+      inset: 13%;
+      border: 1px solid rgba(141, 122, 255, .25);
+      border-radius: 50%
+    }
+
+    .orbit:after {
+      inset: 28%;
+      border-color: rgba(216, 255, 85, .18)
+    }
+
+    .core {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 100px;
+      height: 100px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #f3ffd0, #d8ff55 22%, #5f7d1d 48%, #10150b 70%);
+      box-shadow: 0 0 80px rgba(216, 255, 85, .25), 0 0 180px rgba(141, 122, 255, .18)
+    }
+
+    .sat {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--lime);
+      border-radius: 50%;
+      box-shadow: 0 0 18px var(--lime)
+    }
+
+    .s1 {
+      left: 8%;
+      top: 45%
+    }
+
+    .s2 {
+      right: 18%;
+      top: 12%;
+      background: var(--violet);
+      box-shadow: 0 0 18px var(--violet)
+    }
+
+    .s3 {
+      right: 6%;
+      bottom: 25%;
+      background: var(--cyan);
+      box-shadow: 0 0 18px var(--cyan)
+    }
+
+    .scroll {
+      position: absolute;
+      bottom: 28px;
+      left: 0;
+      font: 9px DM Mono, monospace;
+      color: #626c78;
+      letter-spacing: .15em
+    }
+
+    .ticker {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+      white-space: nowrap
+    }
+
+    .ticker-inner {
+      display: inline-flex;
+      gap: 35px;
+      padding: 15px 0;
+      font: 10px DM Mono, monospace;
+      color: #737d89;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+      animation: marquee 28s linear infinite
+    }
+
+    @keyframes marquee {
+      to {
+        transform: translateX(-50%)
+      }
+    }
+
+    .section {
+      padding: 140px 0
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: .7fr 1.3fr;
+      gap: 70px
+    }
+
+    .section h2 {
+      font-size: clamp(44px, 6.5vw, 82px);
+      line-height: .92;
+      letter-spacing: -.075em;
+      margin: 15px 0
+    }
+
+    .lead {
+      font-size: 24px;
+      line-height: 1.45;
+      color: #dce0dc;
+      max-width: 720px
+    }
+
+    .muted {
+      color: var(--muted);
+      line-height: 1.75
+    }
+
+    .kicker {
+      color: var(--lime)
+    }
+
+    .signal-panel {
+      margin-top: 70px;
+      border: 1px solid var(--line);
+      border-radius: 25px;
+      background: linear-gradient(145deg, #0d1219, #090c11);
+      overflow: hidden;
+      box-shadow: 0 35px 100px rgba(0, 0, 0, .35)
+    }
+
+    .panel-top {
+      height: 52px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      border-bottom: 1px solid var(--line);
+      font: 10px DM Mono, monospace;
+      color: #747f8b
+    }
+
+    .status {
+      color: var(--lime)
+    }
+
+    .signal-body {
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      min-height: 450px
+    }
+
+    .visual {
+      padding: 30px;
+      position: relative;
+      border-right: 1px solid var(--line);
+      overflow: hidden
+    }
+
+    .visual h3,
+    .insights h3 {
+      font-size: 13px;
+      margin: 0 0 20px
+    }
+
+    .field {
+      height: 350px;
+      position: relative;
+      background: radial-gradient(circle at 50% 45%, rgba(141, 122, 255, .16), transparent 33%), radial-gradient(circle at 60% 60%, rgba(216, 255, 85, .08), transparent 28%);
+      border: 1px solid rgba(255, 255, 255, .05);
+      border-radius: 18px;
+      overflow: hidden
+    }
+
+    .field:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, .04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px);
+      background-size: 45px 45px
+    }
+
+    .node {
+      position: absolute;
+      border-radius: 50%;
+      width: 12px;
+      height: 12px;
+      background: var(--lime);
+      box-shadow: 0 0 20px rgba(216, 255, 85, .6)
+    }
+
+    .n1 {
+      left: 17%;
+      top: 27%
+    }
+
+    .n2 {
+      left: 38%;
+      top: 58%;
+      background: var(--violet);
+      box-shadow: 0 0 20px rgba(141, 122, 255, .6)
+    }
+
+    .n3 {
+      left: 65%;
+      top: 34%;
+      background: var(--cyan);
+      box-shadow: 0 0 20px rgba(103, 232, 249, .6)
+    }
+
+    .n4 {
+      right: 14%;
+      bottom: 18%
+    }
+
+    .beam {
+      position: absolute;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--lime), transparent);
+      transform-origin: left;
+      opacity: .65
+    }
+
+    .b1 {
+      left: 19%;
+      top: 30%;
+      width: 260px;
+      transform: rotate(21deg)
+    }
+
+    .b2 {
+      left: 40%;
+      top: 59%;
+      width: 230px;
+      transform: rotate(-24deg)
+    }
+
+    .b3 {
+      left: 65%;
+      top: 36%;
+      width: 180px;
+      transform: rotate(48deg)
+    }
+
+    .pulse {
+      position: absolute;
+      left: 51%;
+      top: 46%;
+      width: 76px;
+      height: 76px;
+      border: 1px solid rgba(216, 255, 85, .5);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      animation: pulse 2.8s infinite
+    }
+
+    @keyframes pulse {
+      50% {
+        box-shadow: 0 0 0 22px rgba(216, 255, 85, .03);
+        opacity: .55
+      }
+
+      100% {
+        box-shadow: 0 0 0 48px rgba(216, 255, 85, 0);
+        opacity: 1
+      }
+    }
+
+    .insights {
+      padding: 30px
+    }
+
+    .metric {
+      padding: 19px 0;
+      border-top: 1px solid var(--line)
+    }
+
+    .metric:first-of-type {
+      border-top: 0
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 30px;
+      letter-spacing: -.05em
+    }
+
+    .tag {
+      display: inline-block;
+      margin: 5px 0 7px;
+      padding: 5px 7px;
+      border-radius: 5px;
+      background: rgba(216, 255, 85, .08);
+      color: var(--lime);
+      font: 9px DM Mono, monospace
+    }
+
+    .metric p {
+      margin: 0;
+      color: #838d99;
+      font-size: 12px;
+      line-height: 1.6
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 60px
+    }
+
+    .feature {
+      padding: 27px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(150deg, #10151d, #0b0e13);
+      min-height: 260px;
+      transition: .3s
+    }
+
+    .feature:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 255, 255, .2)
+    }
+
+    .num {
+      font: 10px DM Mono, monospace;
+      color: var(--lime)
+    }
+
+    .feature h3 {
+      margin: 75px 0 12px;
+      font-size: 18px
+    }
+
+    .feature p {
+      font-size: 12px;
+      line-height: 1.7;
+      color: #858f9b
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 60px
+    }
+
+    .step {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 30px;
+      min-height: 220px;
+      background: #0d1117
+    }
+
+    .step strong {
+      font-size: 12px;
+      color: var(--lime);
+      font-family: DM Mono, monospace
+    }
+
+    .step h3 {
+      font-size: 25px;
+      margin: 45px 0 12px;
+      letter-spacing: -.04em
+    }
+
+    .step p {
+      color: #89939e;
+      line-height: 1.65;
+      font-size: 13px
+    }
+
+    .band {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 100px 0;
+      background: radial-gradient(circle at 15% 50%, rgba(141, 122, 255, .12), transparent 28%), radial-gradient(circle at 80% 40%, rgba(216, 255, 85, .07), transparent 25%)
+    }
+
+    .band-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center
+    }
+
+    .quote {
+      font-size: clamp(30px, 4.3vw, 56px);
+      line-height: 1;
+      letter-spacing: -.06em;
+      margin: 0
+    }
+
+    .quote span {
+      color: #646d78
+    }
+
+    .logos {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px
+    }
+
+    .logo {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 20px;
+      color: #87919c;
+      font: 11px DM Mono, monospace
+    }
+
+    .security {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 60px
+    }
+
+    .security-card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 30px;
+      background: #0c1016
+    }
+
+    .security-card h3 {
+      margin: 0 0 14px;
+      font-size: 19px
+    }
+
+    .security-card p {
+      margin: 0;
+      color: #8b95a0;
+      font-size: 13px;
+      line-height: 1.7
+    }
+
+    .cta {
+      text-align: center;
+      padding: 155px 0 170px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .cta:before {
+      content: "";
+      position: absolute;
+      width: 650px;
+      height: 300px;
+      left: 50%;
+      top: 30%;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse, rgba(216, 255, 85, .11), transparent 65%);
+      pointer-events: none
+    }
+
+    .cta h2 {
+      position: relative;
+      font-size: clamp(58px, 9vw, 122px);
+      line-height: .83;
+      letter-spacing: -.085em;
+      margin: 15px auto 28px;
+      max-width: 1000px
+    }
+
+    .cta h2 span {
+      color: var(--lime)
+    }
+
+    .cta p {
+      position: relative;
+      max-width: 470px;
+      margin: auto;
+      color: #89939e;
+      line-height: 1.7
+    }
+
+    .footer {
+      border-top: 1px solid var(--line);
+      padding: 26px 0 45px;
+      display: flex;
+      justify-content: space-between;
+      color: #65707c;
+      font: 9px DM Mono, monospace;
+      text-transform: uppercase;
+      letter-spacing: .08em
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .75s ease, transform .75s ease
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: none
+    }
+
+    /* --- Interactive cursor + hero signal layer --- */
+    html {
+      cursor: none
+    }
+
+    a,
+    button {
+      cursor: none
+    }
+
+    .cursor-dot,
+    .cursor-ring {
+      position: fixed;
+      left: 0;
+      top: 0;
+      pointer-events: none;
+      z-index: 9999;
+      border-radius: 50%;
+      transform: translate3d(-50%, -50%);
+    }
+
+    .cursor-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--lime);
+      box-shadow: 0 0 18px var(--lime)
+    }
+
+    .cursor-ring {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(216, 255, 85, .55);
+      transition: width .22s, height .22s, border-color .22s, background .22s;
+      mix-blend-mode: screen
+    }
+
+    .cursor-ring.hover {
+      width: 64px;
+      height: 64px;
+      border-color: rgba(216, 255, 85, .9);
+      background: rgba(216, 255, 85, .05)
+    }
+
+    .cursor-label {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      font: 9px DM Mono, monospace;
+      letter-spacing: .12em;
+      color: var(--lime);
+      opacity: 0;
+      transform: translate(15px, 15px);
+      transition: opacity .2s;
+      text-transform: uppercase
+    }
+
+    .cursor-label.show {
+      opacity: 1
+    }
+
+    .hero-stage {
+      position: absolute;
+      right: 0;
+      top: 7%;
+      width: min(700px, 58vw);
+      height: 700px;
+      z-index: 1;
+      pointer-events: none
+    }
+
+    .hero-stage:after {
+      content: "";
+      position: absolute;
+      inset: 10%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(216, 255, 85, .07), transparent 58%);
+      filter: blur(25px)
+    }
+
+    .constellation {
+      position: absolute;
+      inset: 0
+    }
+
+    .constellation i {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: #cfd8e3;
+      box-shadow: 0 0 10px rgba(255, 255, 255, .65);
+      opacity: .7
+    }
+
+    .c1 {
+      left: 12%;
+      top: 23%
+    }
+
+    .c2 {
+      left: 27%;
+      top: 68%
+    }
+
+    .c3 {
+      left: 40%;
+      top: 18%
+    }
+
+    .c4 {
+      left: 76%;
+      top: 27%
+    }
+
+    .c5 {
+      left: 84%;
+      top: 64%
+    }
+
+    .c6 {
+      left: 60%;
+      top: 78%
+    }
+
+    .c7 {
+      left: 51%;
+      top: 48%
+    }
+
+    .c8 {
+      left: 20%;
+      top: 48%
+    }
+
+    .c9 {
+      left: 70%;
+      top: 53%
+    }
+
+    .c10 {
+      left: 91%;
+      top: 40%
+    }
+
+    .constellation svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: .28
+    }
+
+    .constellation path {
+      fill: none;
+      stroke: rgba(216, 255, 85, .65);
+      stroke-width: .7;
+      stroke-dasharray: 4 9
+    }
+
+    .hero-orb {
+      position: absolute;
+      left: 50%;
+      top: 49%;
+      width: 310px;
+      height: 310px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 34% 28%, #f7ffd8 0 2%, #d8ff55 10%, #788e2c 27%, #27310f 48%, #0a0e0a 68%, transparent 70%);
+      box-shadow: 0 0 70px rgba(216, 255, 85, .22), 0 0 180px rgba(141, 122, 255, .18);
+      animation: floatOrb 6s ease-in-out infinite
+    }
+
+    .hero-orb:before,
+    .hero-orb:after {
+      content: "";
+      position: absolute;
+      inset: -38px;
+      border: 1px solid rgba(216, 255, 85, .2);
+      border-radius: 50%;
+      transform: rotate(25deg) scaleY(.35)
+    }
+
+    .hero-orb:after {
+      inset: -75px;
+      border-color: rgba(141, 122, 255, .25);
+      transform: rotate(-24deg) scaleY(.27)
+    }
+
+    .hero-orb-core {
+      position: absolute;
+      inset: 28%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, white, rgba(216, 255, 85, .9) 13%, rgba(216, 255, 85, .05) 65%, transparent 70%);
+      filter: blur(.2px)
+    }
+
+    .orbit-label {
+      position: absolute;
+      padding: 8px 10px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      background: rgba(7, 9, 13, .65);
+      backdrop-filter: blur(12px);
+      border-radius: 8px;
+      font: 8px DM Mono, monospace;
+      color: #aab3be;
+      letter-spacing: .1em;
+    }
+
+    .ol1 {
+      left: 8%;
+      top: 35%
+    }
+
+    .ol2 {
+      right: 8%;
+      top: 25%
+    }
+
+    .ol3 {
+      right: 13%;
+      bottom: 22%
+    }
+
+    .hero-stat {
+      position: absolute;
+      right: 0;
+      bottom: 7%;
+      width: 190px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(10, 13, 18, .72);
+      backdrop-filter: blur(15px);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, .3)
+    }
+
+    .hero-stat span {
+      font: 8px DM Mono, monospace;
+      color: #77818d
+    }
+
+    .hero-stat strong {
+      display: block;
+      font-size: 27px;
+      letter-spacing: -.06em;
+      margin-top: 6px
+    }
+
+    .hero-stat em {
+      font-style: normal;
+      font: 9px DM Mono, monospace;
+      color: var(--lime)
+    }
+
+    .mag {
+      will-change: transform;
+      transition: transform .18s cubic-bezier(.2, .8, .2, 1)
+    }
+
+    @keyframes floatOrb {
+      50% {
+        transform: translate(-50%, -54%) scale(1.025)
+      }
+    }
+
+    @media(max-width:900px) {
+      html {
+        cursor: auto
+      }
+
+      .cursor-dot,
+      .cursor-ring,
+      .cursor-label {
+        display: none
+      }
+
+      .hero-stage {
+        opacity: .42;
+        width: 620px;
+        right: -180px;
+        top: 16%
+      }
+    }
+
+    @media(max-width:620px) {
+      .hero-stage {
+        opacity: .23;
+        right: -240px;
+        top: 21%
+      }
+
+      .hero-orb {
+        width: 250px;
+        height: 250px
+      }
+    }
+
+    @media(max-width:900px) {
+      .nav {
+        gap: 12px
+      }
+
+      .navlinks {
+        display: none
+      }
+
+      .orbit {
+        opacity: .28;
+        right: -180px;
+        top: 18%;
+        width: 500px
+      }
+
+      .section-head {
+        grid-template-columns: 1fr;
+        gap: 20px
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .band-inner,
+      .security {
+        grid-template-columns: 1fr
+      }
+
+      .signal-body {
+        grid-template-columns: 1fr
+      }
+
+      .visual {
+        border-right: 0;
+        border-bottom: 1px solid var(--line)
+      }
+    }
+
+    @media(max-width:620px) {
+      .wrap {
+        width: calc(100% - 28px)
+      }
+
+      .header {
+        height: 66px
+      }
+
+      .mini {
+        display: none
+      }
+
+      .hero {
+        min-height: 760px
+      }
+
+      .hero-content {
+        padding: 90px 0
+      }
+
+      .hero h1 {
+        font-size: 19vw
+      }
+
+      .hero-copy {
+        font-size: 16px
+      }
+
+      .orbit {
+        width: 390px;
+        right: -210px;
+        top: 28%;
+        opacity: .22
+      }
+
+      .section {
+        padding: 95px 0
+      }
+
+      .section h2 {
+        font-size: 14vw
+      }
+
+      .lead {
+        font-size: 20px
+      }
+
+      .feature-grid,
+      .workflow {
+        grid-template-columns: 1fr
+      }
+
+      .field {
+        height: 290px
+      }
+
+      .footer {
+        flex-direction: column;
+        gap: 12px
+      }
+
+      .navbtn {
+        padding: 9px 12px
+      }
+    }
+  </style>
 </head>
+
 <body>
-<header class="wrap header">
-  <a class="brand" href="#"><span class="brandmark"></span>ASTRA</a>
-  <nav class="nav">
-    <a href="#platform">Platform</a><a href="#features">Features</a><a href="#workflow">How it works</a><a href="#security">Trust</a>
-  </nav>
-  <div class="nav-right"><span class="mini">● SYSTEM ONLINE</span><a class="navbtn mag" href="#demo">Request demo ↗</a></div>
-</header>
+  <header class="wrap header">
+    <a class="brand" href="#"><span class="brandmark"></span>ASTRA</a>
+    <nav class="nav">
+      <a href="#platform">Platform</a><a href="#features">Features</a><a href="#workflow">How it works</a><a
+        href="#security">Trust</a>
+    </nav>
+    <div class="nav-right"><span class="mini">● SYSTEM ONLINE</span><a class="navbtn mag" href="#demo">Request demo
+        ↗</a></div>
+  </header>
 
 
-<div class="cursor-dot" id="cursorDot"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-<div class="cursor-label" id="cursorLabel">EXPLORE</div>
-<main>
-<section class="wrap hero">
-  <div class="hero-grid"></div><div class="glow"></div>
-  <div class="hero-stage" id="heroStage">
-  <div class="constellation">
-    <svg viewBox="0 0 700 700" preserveAspectRatio="none">
-      <path d="M84 160 L280 476 L420 125 L532 370 L640 190"/>
-      <path d="M140 475 L280 476 L490 545 L590 300"/>
-      <path d="M280 476 L420 125 L490 545"/>
-    </svg>
-    <i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i>
-    <i class="c6"></i><i class="c7"></i><i class="c8"></i><i class="c9"></i><i class="c10"></i>
-  </div>
-  <div class="hero-orb"><span class="hero-orb-core"></span></div>
-  <div class="orbit-label ol1">CUSTOMER SIGNAL</div>
-  <div class="orbit-label ol2">MARKET SHIFT</div>
-  <div class="orbit-label ol3">PRODUCT MOMENTUM</div>
-  <div class="hero-stat"><span>ASTRA CONFIDENCE</span><strong>94.8%</strong><em>↑ +12.4% this week</em></div>
-</div>
-  <div class="hero-content reveal">
-    <div class="eyebrow"><span class="live">● LIVE</span> &nbsp; Intelligence layer for modern teams</div>
-    <h1>Make the<br>unknown <span>useful.</span></h1>
-    <p class="hero-copy">ASTRA connects the signals around your business, finds what changed, explains why it matters, and turns uncertainty into your next move.</p>
-    <div class="actions"><a class="btn primary mag" href="#demo">Enter the beta ↗</a><a class="btn" href="#platform">Explore the system ↓</a></div>
-  </div>
-  <div class="scroll">↓ SCROLL TO NAVIGATE</div>
-</section>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="cursor-label" id="cursorLabel">EXPLORE</div>
+  <main>
+    <section class="wrap hero">
+      <div class="hero-grid"></div>
+      <div class="glow"></div>
+      <div class="hero-stage" id="heroStage">
+        <div class="constellation">
+          <svg viewBox="0 0 700 700" preserveAspectRatio="none">
+            <path d="M84 160 L280 476 L420 125 L532 370 L640 190" />
+            <path d="M140 475 L280 476 L490 545 L590 300" />
+            <path d="M280 476 L420 125 L490 545" />
+          </svg>
+          <i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="c5"></i>
+          <i class="c6"></i><i class="c7"></i><i class="c8"></i><i class="c9"></i><i class="c10"></i>
+        </div>
+        <div class="hero-orb"><span class="hero-orb-core"></span></div>
+        <div class="orbit-label ol1">CUSTOMER SIGNAL</div>
+        <div class="orbit-label ol2">MARKET SHIFT</div>
+        <div class="orbit-label ol3">PRODUCT MOMENTUM</div>
+        <div class="hero-stat"><span>ASTRA CONFIDENCE</span><strong>94.8%</strong><em>↑ +12.4% this week</em></div>
+      </div>
+      <div class="hero-content reveal">
+        <div class="eyebrow"><span class="live">● LIVE</span> &nbsp; Intelligence layer for modern teams</div>
+        <h1>Make the<br>unknown <span>useful.</span></h1>
+        <p class="hero-copy">ASTRA connects the signals around your business, finds what changed, explains why it
+          matters, and turns uncertainty into your next move.</p>
+        <div class="actions"><a class="btn primary mag" href="#demo">Enter the beta ↗</a><a class="btn"
+            href="#platform">Explore the system ↓</a></div>
+      </div>
+      <div class="scroll">↓ SCROLL TO NAVIGATE</div>
+    </section>
 
-<div class="ticker"><div class="ticker-inner">SIGNAL DETECTION • CONTEXT ENGINE • MARKET INTELLIGENCE • CUSTOMER VOICE • DECISION SUPPORT • SIGNAL DETECTION • CONTEXT ENGINE • MARKET INTELLIGENCE • CUSTOMER VOICE • DECISION SUPPORT •</div></div>
+    <div class="ticker">
+      <div class="ticker-inner">SIGNAL DETECTION • CONTEXT ENGINE • MARKET INTELLIGENCE • CUSTOMER VOICE • DECISION
+        SUPPORT • SIGNAL DETECTION • CONTEXT ENGINE • MARKET INTELLIGENCE • CUSTOMER VOICE • DECISION SUPPORT •</div>
+    </div>
 
-<section id="platform" class="wrap section">
-  <div class="section-head reveal">
-    <div><div class="eyebrow">01 / THE PLATFORM</div><h2>One layer for the signals that matter.</h2></div>
-    <div><p class="lead">Your data already knows more than your dashboards show.</p><p class="muted">ASTRA builds a living map of product, customer, market and operational signals. It continuously connects the dots so your team can focus on decisions instead of hunting for context.</p></div>
-  </div>
-  <div class="signal-panel reveal">
-    <div class="panel-top"><span>ASTRA / SIGNAL FIELD</span><span class="status">● 24 SIGNALS ACTIVE</span></div>
-    <div class="signal-body">
-      <div class="visual">
-        <h3>Relationship map / live</h3>
-        <div class="field">
-          <i class="node n1"></i><i class="node n2"></i><i class="node n3"></i><i class="node n4"></i>
-          <i class="beam b1"></i><i class="beam b2"></i><i class="beam b3"></i><i class="pulse"></i>
+    <section id="platform" class="wrap section">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow">01 / THE PLATFORM</div>
+          <h2>One layer for the signals that matter.</h2>
+        </div>
+        <div>
+          <p class="lead">Your data already knows more than your dashboards show.</p>
+          <p class="muted">ASTRA builds a living map of product, customer, market and operational signals. It
+            continuously connects the dots so your team can focus on decisions instead of hunting for context.</p>
         </div>
       </div>
-      <aside class="insights">
-        <h3>What ASTRA found</h3>
-        <div class="metric"><strong>+18.4%</strong><span class="tag">HIGH CONFIDENCE</span><p>Activation accelerated after the onboarding release.</p></div>
-        <div class="metric"><strong>3.2×</strong><span class="tag">EMERGING</span><p>Enterprise conversations are increasingly mentioning a competitor.</p></div>
-        <div class="metric"><strong>7 days</strong><span class="tag">ACTION WINDOW</span><p>Pricing sentiment is shifting. A focused test is recommended now.</p></div>
-      </aside>
-    </div>
-  </div>
-</section>
+      <div class="signal-panel reveal">
+        <div class="panel-top"><span>ASTRA / SIGNAL FIELD</span><span class="status">● 24 SIGNALS ACTIVE</span></div>
+        <div class="signal-body">
+          <div class="visual">
+            <h3>Relationship map / live</h3>
+            <div class="field">
+              <i class="node n1"></i><i class="node n2"></i><i class="node n3"></i><i class="node n4"></i>
+              <i class="beam b1"></i><i class="beam b2"></i><i class="beam b3"></i><i class="pulse"></i>
+            </div>
+          </div>
+          <aside class="insights">
+            <h3>What ASTRA found</h3>
+            <div class="metric"><strong>+18.4%</strong><span class="tag">HIGH CONFIDENCE</span>
+              <p>Activation accelerated after the onboarding release.</p>
+            </div>
+            <div class="metric"><strong>3.2×</strong><span class="tag">EMERGING</span>
+              <p>Enterprise conversations are increasingly mentioning a competitor.</p>
+            </div>
+            <div class="metric"><strong>7 days</strong><span class="tag">ACTION WINDOW</span>
+              <p>Pricing sentiment is shifting. A focused test is recommended now.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
 
-<section id="features" class="wrap section">
-  <div class="reveal"><div class="eyebrow">02 / CAPABILITIES</div><h2>From raw signal<br>to clear action.</h2></div>
-  <div class="feature-grid">
-    <article class="feature reveal"><span class="num">01 — CONNECT</span><h3>Unified context</h3><p>Bring analytics, CRM, support, research, docs and market data into one continuously updated context layer.</p></article>
-    <article class="feature reveal"><span class="num">02 — DETECT</span><h3>Signal detection</h3><p>Spot meaningful anomalies, emerging patterns and relationships before they become obvious in a monthly report.</p></article>
-    <article class="feature reveal"><span class="num">03 — EXPLAIN</span><h3>Evidence trails</h3><p>Every important signal comes with the supporting evidence, source context and confidence behind it.</p></article>
-    <article class="feature reveal"><span class="num">04 — ACT</span><h3>Decision briefs</h3><p>Turn complex findings into concise recommendations, experiments and questions your team can act on.</p></article>
-  </div>
-</section>
+    <section id="features" class="wrap section">
+      <div class="reveal">
+        <div class="eyebrow">02 / CAPABILITIES</div>
+        <h2>From raw signal<br>to clear action.</h2>
+      </div>
+      <div class="feature-grid">
+        <article class="feature reveal"><span class="num">01 — CONNECT</span>
+          <h3>Unified context</h3>
+          <p>Bring analytics, CRM, support, research, docs and market data into one continuously updated context layer.
+          </p>
+        </article>
+        <article class="feature reveal"><span class="num">02 — DETECT</span>
+          <h3>Signal detection</h3>
+          <p>Spot meaningful anomalies, emerging patterns and relationships before they become obvious in a monthly
+            report.</p>
+        </article>
+        <article class="feature reveal"><span class="num">03 — EXPLAIN</span>
+          <h3>Evidence trails</h3>
+          <p>Every important signal comes with the supporting evidence, source context and confidence behind it.</p>
+        </article>
+        <article class="feature reveal"><span class="num">04 — ACT</span>
+          <h3>Decision briefs</h3>
+          <p>Turn complex findings into concise recommendations, experiments and questions your team can act on.</p>
+        </article>
+      </div>
+    </section>
 
-<section id="workflow" class="wrap section">
-  <div class="section-head reveal">
-    <div><div class="eyebrow">03 / HOW IT WORKS</div><h2>Quiet in the background.<br>Sharp when needed.</h2></div>
-    <div><p class="lead">ASTRA works like an always-on analyst that already understands your business.</p></div>
-  </div>
-  <div class="workflow">
-    <article class="step reveal"><strong>01 / INGEST</strong><h3>Connect once.</h3><p>Choose the systems your team already uses. ASTRA creates a shared context without forcing everyone into another workflow.</p></article>
-    <article class="step reveal"><strong>02 / MAP</strong><h3>See relationships.</h3><p>Signals are linked across customers, products, markets and time so isolated metrics become understandable patterns.</p></article>
-    <article class="step reveal"><strong>03 / PRIORITIZE</strong><h3>Know what matters.</h3><p>ASTRA filters noise and ranks changes by relevance, confidence and potential business impact.</p></article>
-    <article class="step reveal"><strong>04 / MOVE</strong><h3>Leave with a next step.</h3><p>Generate a focused decision brief, share it with your team and turn insight into a testable action.</p></article>
-  </div>
-</section>
+    <section id="workflow" class="wrap section">
+      <div class="section-head reveal">
+        <div>
+          <div class="eyebrow">03 / HOW IT WORKS</div>
+          <h2>Quiet in the background.<br>Sharp when needed.</h2>
+        </div>
+        <div>
+          <p class="lead">ASTRA works like an always-on analyst that already understands your business.</p>
+        </div>
+      </div>
+      <div class="workflow">
+        <article class="step reveal"><strong>01 / INGEST</strong>
+          <h3>Connect once.</h3>
+          <p>Choose the systems your team already uses. ASTRA creates a shared context without forcing everyone into
+            another workflow.</p>
+        </article>
+        <article class="step reveal"><strong>02 / MAP</strong>
+          <h3>See relationships.</h3>
+          <p>Signals are linked across customers, products, markets and time so isolated metrics become understandable
+            patterns.</p>
+        </article>
+        <article class="step reveal"><strong>03 / PRIORITIZE</strong>
+          <h3>Know what matters.</h3>
+          <p>ASTRA filters noise and ranks changes by relevance, confidence and potential business impact.</p>
+        </article>
+        <article class="step reveal"><strong>04 / MOVE</strong>
+          <h3>Leave with a next step.</h3>
+          <p>Generate a focused decision brief, share it with your team and turn insight into a testable action.</p>
+        </article>
+      </div>
+    </section>
 
-<section class="band">
-  <div class="wrap band-inner reveal">
-    <p class="quote">“The best interface is the one that tells you <span>where to look next.</span>”</p>
-    <div class="logos"><div class="logo">PRODUCT TEAMS</div><div class="logo">STRATEGY</div><div class="logo">GROWTH</div><div class="logo">OPERATIONS</div></div>
-  </div>
-</section>
+    <section class="band">
+      <div class="wrap band-inner reveal">
+        <p class="quote">“The best interface is the one that tells you <span>where to look next.</span>”</p>
+        <div class="logos">
+          <div class="logo">PRODUCT TEAMS</div>
+          <div class="logo">STRATEGY</div>
+          <div class="logo">GROWTH</div>
+          <div class="logo">OPERATIONS</div>
+        </div>
+      </div>
+    </section>
 
-<section id="security" class="wrap section">
-  <div class="reveal"><div class="eyebrow">04 / TRUST & CONTROL</div><h2>Built for sensitive<br>business context.</h2></div>
-  <div class="security">
-    <article class="security-card reveal"><h3>Source-aware intelligence</h3><p>Insights remain tied to their underlying sources, so your team can inspect the evidence instead of trusting a black box.</p></article>
-    <article class="security-card reveal"><h3>Human decision loop</h3><p>ASTRA surfaces evidence and options. Your team stays in control of what gets approved, tested and shipped.</p></article>
-    <article class="security-card reveal"><h3>Permission-first access</h3><p>Connect only the systems and datasets relevant to your workspace, with access designed around existing team boundaries.</p></article>
-    <article class="security-card reveal"><h3>Designed for clarity</h3><p>No wall of AI jargon. Every output is structured around the signal, the evidence, the implication and the next action.</p></article>
-  </div>
-</section>
+    <section id="security" class="wrap section">
+      <div class="reveal">
+        <div class="eyebrow">04 / TRUST & CONTROL</div>
+        <h2>Built for sensitive<br>business context.</h2>
+      </div>
+      <div class="security">
+        <article class="security-card reveal">
+          <h3>Source-aware intelligence</h3>
+          <p>Insights remain tied to their underlying sources, so your team can inspect the evidence instead of trusting
+            a black box.</p>
+        </article>
+        <article class="security-card reveal">
+          <h3>Human decision loop</h3>
+          <p>ASTRA surfaces evidence and options. Your team stays in control of what gets approved, tested and shipped.
+          </p>
+        </article>
+        <article class="security-card reveal">
+          <h3>Permission-first access</h3>
+          <p>Connect only the systems and datasets relevant to your workspace, with access designed around existing team
+            boundaries.</p>
+        </article>
+        <article class="security-card reveal">
+          <h3>Designed for clarity</h3>
+          <p>No wall of AI jargon. Every output is structured around the signal, the evidence, the implication and the
+            next action.</p>
+        </article>
+      </div>
+    </section>
 
-<section id="demo" class="cta wrap reveal">
-  <div class="eyebrow">05 / EARLY ACCESS</div>
-  <h2>See what<br><span>others miss.</span></h2>
-  <p>Bring the messy data, scattered context and unanswered questions. ASTRA brings the signal.</p>
-  <div class="actions" style="justify-content:center"><a class="btn primary mag" href="mailto:hello@astra.example?subject=ASTRA%20Demo">Request an invite ↗</a><a class="btn" href="#platform">Tour the platform</a></div>
-</section>
-</main>
+    <section id="demo" class="cta wrap reveal">
+      <div class="eyebrow">05 / EARLY ACCESS</div>
+      <h2>See what<br><span>others miss.</span></h2>
+      <p>Bring the messy data, scattered context and unanswered questions. ASTRA brings the signal.</p>
+      <div class="actions" style="justify-content:center"><a class="btn primary mag"
+          href="mailto:hello@astra.example?subject=ASTRA%20Demo">Request an invite ↗</a><a class="btn"
+          href="#platform">Tour the platform</a></div>
+    </section>
+  </main>
 
-<footer class="wrap footer"><span>© 2026 ASTRA Intelligence</span><span>Signal over noise / Built for momentum</span></footer>
-<script>
-const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')}),{threshold:.12});
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
-const hero=document.querySelector('.hero'), orbit=document.querySelector('.orbit');
-hero.addEventListener('pointermove',e=>{
-  const r=hero.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
-  orbit.style.transform=`translate(${x*12}px,${y*10}px) rotate(-18deg)`;
-});
-hero.addEventListener('pointerleave',()=>orbit.style.transform='translate(0,0) rotate(-18deg)');
+  <footer class="wrap footer"><span>© 2026 ASTRA Intelligence</span><span>Signal over noise / Built for momentum</span>
+  </footer>
+  <script>
+    const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show') }), { threshold: .12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    const hero = document.querySelector('.hero'), orbit = document.querySelector('.orbit');
+    hero.addEventListener('pointermove', e => {
+      const r = hero.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      orbit.style.transform = `translate(${x * 12}px,${y * 10}px) rotate(-18deg)`;
+    });
+    hero.addEventListener('pointerleave', () => orbit.style.transform = 'translate(0,0) rotate(-18deg)');
 
-/* Premium cursor: smooth follower + hover state + contextual label */
-const dot=document.getElementById('cursorDot');
-const ring=document.getElementById('cursorRing');
-const label=document.getElementById('cursorLabel');
-let mx=innerWidth/2,my=innerHeight/2,dx=mx,dy=my,rx=mx,ry=my;
-window.addEventListener('pointermove',e=>{
-  mx=e.clientX; my=e.clientY;
-  label.style.left=mx+'px'; label.style.top=my+'px';
-});
-(function cursorLoop(){
-  dx+=(mx-dx)*.35; dy+=(my-dy)*.35;
-  rx+=(mx-rx)*.13; ry+=(my-ry)*.13;
-  dot.style.transform=`translate3d(${dx}px,${dy}px,0) translate(-50%,-50%)`;
-  ring.style.transform=`translate3d(${rx}px,${ry}px,0) translate(-50%,-50%)`;
-  requestAnimationFrame(cursorLoop);
-})();
-document.querySelectorAll('a,.mag').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{ring.classList.add('hover');label.classList.add('show')});
-  el.addEventListener('mouseleave',()=>{ring.classList.remove('hover');label.classList.remove('show')});
-});
-/* Magnetic CTA movement */
-document.querySelectorAll('.mag').forEach(el=>{
-  el.addEventListener('pointermove',e=>{
-    const r=el.getBoundingClientRect(), x=e.clientX-(r.left+r.width/2), y=e.clientY-(r.top+r.height/2);
-    el.style.transform=`translate(${x*.16}px,${y*.16}px)`;
-  });
-  el.addEventListener('pointerleave',()=>el.style.transform='translate(0,0)');
-});
-/* Hero depth parallax */
-const stage=document.getElementById('heroStage');
-window.addEventListener('pointermove',e=>{
-  if(!stage)return;
-  const x=e.clientX/innerWidth-.5, y=e.clientY/innerHeight-.5;
-  stage.style.transform=`translate3d(${x*18}px,${y*14}px,0)`;
-});
-</script>
+    /* Premium cursor: smooth follower + hover state + contextual label */
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    const label = document.getElementById('cursorLabel');
+    let mx = innerWidth / 2, my = innerHeight / 2, dx = mx, dy = my, rx = mx, ry = my;
+    window.addEventListener('pointermove', e => {
+      mx = e.clientX; my = e.clientY;
+      label.style.left = mx + 'px'; label.style.top = my + 'px';
+    });
+    (function cursorLoop() {
+      dx += (mx - dx) * .35; dy += (my - dy) * .35;
+      rx += (mx - rx) * .13; ry += (my - ry) * .13;
+      dot.style.transform = `translate3d(${dx}px,${dy}px,0) translate(-50%,-50%)`;
+      ring.style.transform = `translate3d(${rx}px,${ry}px,0) translate(-50%,-50%)`;
+      requestAnimationFrame(cursorLoop);
+    })();
+    document.querySelectorAll('a,.mag').forEach(el => {
+      el.addEventListener('mouseenter', () => { ring.classList.add('hover'); label.classList.add('show') });
+      el.addEventListener('mouseleave', () => { ring.classList.remove('hover'); label.classList.remove('show') });
+    });
+    /* Magnetic CTA movement */
+    document.querySelectorAll('.mag').forEach(el => {
+      el.addEventListener('pointermove', e => {
+        const r = el.getBoundingClientRect(), x = e.clientX - (r.left + r.width / 2), y = e.clientY - (r.top + r.height / 2);
+        el.style.transform = `translate(${x * .16}px,${y * .16}px)`;
+      });
+      el.addEventListener('pointerleave', () => el.style.transform = 'translate(0,0)');
+    });
+    /* Hero depth parallax */
+    const stage = document.getElementById('heroStage');
+    window.addEventListener('pointermove', e => {
+      if (!stage) return;
+      const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
+      stage.style.transform = `translate3d(${x * 18}px,${y * 14}px,0)`;
+    });
+  </script>
 </body>
+
 </html>
